@@ -1,0 +1,55 @@
+//Write a memory-intensive Java program that creates a large number of objects and test
+it using the G1 garbage collector. Print timestamps along with the total heap size and
+free memory. Use the following commands to retrieve heap memory details:
+• Total heap memory: Runtime.getRuntime().totalMemory();
+• Free heap memory: Runtime.getRuntime().freeMemory();
+
+
+
+
+
+
+import java.util.ArrayList;
+
+public class SimpleMemoryTest {
+    public static void main(String[] args) {
+        // Create an ArrayList to hold many objects
+        ArrayList<int[]> list = new ArrayList<>();
+        Runtime runtime = Runtime.getRuntime();
+
+        System.out.println("Starting memory test...");
+
+        // Print initial memory usage
+        printMemoryUsage(runtime);
+
+        // Create a large number of objects (100,000)
+        for (int i = 0; i < 100000; i++) {
+            list.add(new int[1000]); // Each array takes 4 KB of memory
+        }
+
+        // Print memory usage after creating objects
+        System.out.println("\nAfter creating 100,000 objects:");
+        printMemoryUsage(runtime);
+
+        // Set the list to null to make objects eligible for GC
+        list = null;
+
+        // Request garbage collection
+        System.gc();
+
+        // Print memory usage after GC
+        System.out.println("\nAfter requesting garbage collection:");
+        printMemoryUsage(runtime);
+    }
+
+    // Method to print the total and free memory in the heap
+    public static void printMemoryUsage(Runtime runtime) {
+        long totalMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+        long usedMemory = totalMemory - freeMemory;
+
+        System.out.println("Total Memory: " + totalMemory / (1024 * 1024) + " MB");
+        System.out.println("Free Memory: " + freeMemory / (1024 * 1024) + " MB");
+        System.out.println("Used Memory: " + usedMemory / (1024 * 1024) + " MB");
+    }
+}
