@@ -1,0 +1,72 @@
+//Create a Java program for university student enrollment using a Student class to
+manage course details and student information. Implement efficient garbage collection
+for memory management and use the Runtime class to monitor memory usage.
+Override the finalize() method to print a message upon successful garbage collection.
+
+
+
+public class Student {
+    private String name;
+    private int studentID;
+
+    // Constructor to initialize student
+    public Student(String name, int studentID) {
+        this.name = name;
+        this.studentID = studentID;
+    }
+
+    // Method to display student details
+    public void display() {
+        System.out.println("Student ID: " + studentID + ", Name: " + name);
+    }
+
+    // Overriding finalize() method to show message when object is garbage collected
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Student object with ID " + studentID + " has been garbage collected.");
+    }
+}
+
+public class StudentEnrollment {
+    public static void main(String[] args) {
+        Runtime runtime = Runtime.getRuntime();
+
+        // Display initial memory usage
+        System.out.println("Initial memory usage:");
+        printMemoryUsage(runtime);
+
+        // Create student objects
+        Student student1 = new Student("Alice", 101);
+        Student student2 = new Student("Bob", 102);
+
+        // Display student details
+        student1.display();
+        student2.display();
+
+        // Display memory usage after creating objects
+        System.out.println("\nMemory usage after creating objects:");
+        printMemoryUsage(runtime);
+
+        // Set objects to null to make them eligible for garbage collection
+        student1 = null;
+        student2 = null;
+
+        // Request garbage collection
+        System.gc();
+
+        // Display memory usage after garbage collection
+        System.out.println("\nMemory usage after garbage collection request:");
+        printMemoryUsage(runtime);
+    }
+
+    // Method to print memory usage
+    public static void printMemoryUsage(Runtime runtime) {
+        long totalMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+        long usedMemory = totalMemory - freeMemory;
+
+        System.out.println("Total Memory: " + totalMemory / (1024 * 1024) + " MB");
+        System.out.println("Free Memory: " + freeMemory / (1024 * 1024) + " MB");
+        System.out.println("Used Memory: " + usedMemory / (1024 * 1024) + " MB");
+    }
+}
