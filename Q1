@@ -1,0 +1,49 @@
+//Write a Java program to demonstrate garbage collection using an UnreachableObject
+class. It should include a constructor to initialize an object with a given name, a show()
+method creating an instance and invoking display(), and the display() method creating
+another instance. The main() method should call show() and explicitly invoke the
+garbage collector. The program must override the finalize() method to print the object's
+name upon successful garbage collection, illustrating how unreachable objects are
+collected.
+
+
+
+
+
+public class UnreachableObject {
+    private String name;
+
+   
+    public UnreachableObject(String name) {
+        this.name = name;
+        System.out.println("Created: " + name);
+    }
+
+   
+    public void display() {
+        UnreachableObject innerObj = new UnreachableObject("Inner Object");
+        System.out.println("Inside display()");
+    }
+
+   
+    public static void show() {
+        UnreachableObject obj = new UnreachableObject("Outer Object");
+        obj.display();
+    }
+
+   
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Garbage collected: " + name);
+    }
+
+   
+    public static void main(String[] args) {
+        show();
+
+       
+        System.gc();
+
+        System.out.println("End of main");
+    }
+}
