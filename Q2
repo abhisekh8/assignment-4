@@ -1,0 +1,46 @@
+//Develop a Java program to demonstrate reference reassignment and garbage collection
+using the ReassigningReference class. The class should have a constructor to initialize
+an object with a given name. In the main() method, create two instances of
+ReassigningReference, reassign one reference to another, and then explicitly invoke
+the garbage collector. Override the finalize() method to print the object's name upon
+successful garbage collection.
+
+
+
+public class ReassigningReference {
+    private String name;
+
+   
+    public ReassigningReference(String name) {
+        this.name = name;
+        System.out.println("Object '" + name + "' created.");
+    }
+
+   
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Object '" + name + "' has been garbage collected.");
+        super.finalize();
+    }
+
+    public static void main(String[] args) {
+        
+        ReassigningReference obj1 = new ReassigningReference("First Object");
+        ReassigningReference obj2 = new ReassigningReference("Second Object");
+
+      
+        System.out.println("\nReassigning obj1 to reference obj2...");
+        obj1 = obj2;
+        
+       
+        
+       
+        System.out.println("\nRequesting garbage collection...");
+        System.gc();
+        
+       
+       
+        
+        System.out.println("\nProgram completed.");
+    }
+}
