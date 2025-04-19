@@ -1,0 +1,39 @@
+//Create a Java program to demonstrate anonymous objects and garbage collection using
+the AnonymousObject class. The class should have a constructor to initialize an object
+with a name. In the main() method, create an anonymous object and explicitly invoke
+the garbage collector. Override the finalize() method to print the object's name upon
+successful garbage collection.
+
+
+
+
+
+public class AnonymousObject {
+    private String name;
+
+   
+    public AnonymousObject(String name) {
+        this.name = name;
+        System.out.println("Anonymous object created with name: " + name);
+    }
+
+    
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Garbage collected anonymous object with name: " + name);
+    }
+
+    public static void main(String[] args) {
+
+        new AnonymousObject("TempObject");
+
+       
+        System.out.println("Calling System.gc()...");
+        System.gc();
+
+        
+        System.runFinalization();
+
+       
+    }
+}
